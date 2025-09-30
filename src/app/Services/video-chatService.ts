@@ -8,7 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class VideoChatService {
   
-  private hubUrl='https://localhost:5000/videochathub';
+  // private hubUrl='https://localhost:5000/videochathub';
+  private hubUrl='https://ishant543.bsite.net/videochathub';
   public hubConnection!:HubConnection;
   private authService=inject(AuthService);
   public offerReceived=new BehaviorSubject<{senderId:string,offer:RTCSessionDescriptionInit}|null>(null);

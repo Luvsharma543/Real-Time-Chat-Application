@@ -14,7 +14,8 @@ export class ChatService{
   private authService = inject(AuthService);
   storedUser:UserDto|null=JSON.parse(localStorage.getItem("user")!);
 
-  private hubUrl = "https://localhost:5000/chathub";
+  // private hubUrl = "https://localhost:5000/chathub";
+  private hubUrl = "https://ishant543.bsite.net/chathub";
   private hubConnection?: HubConnection;
 
   onlineUser= signal<User[]>([]);

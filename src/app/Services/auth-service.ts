@@ -20,7 +20,8 @@ export class AuthService {
       userName:"",
     };
 
-  private baseUrl = "https://localhost:5000/api/Account"; // Replace with your backend URL
+  // private baseUrl = "https://localhost:5000/api/Account"; 
+  private baseUrl = "https://ishant543.bsite.net/api/Account"; 
 
  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
