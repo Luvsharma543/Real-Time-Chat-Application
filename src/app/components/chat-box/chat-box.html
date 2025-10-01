@@ -1,4 +1,4 @@
-<div class="flex chat-box py-2 border-[20px] border-transparent flex-col margin-bottom-5">
+<!-- <div class="flex chat-box py-2 border-[20px] border-transparent flex-col margin-bottom-5">
    <div class="h-100">
        @if(chatService.chatMessages.length>5)
        {
@@ -95,5 +95,102 @@
                 </div>
        }
        
+   </div>
+</div> -->
+
+<div class="flex chat-box py-2 border-[12px] sm:border-[20px] border-transparent flex-col h-full overflow-y-auto">
+   <div class="h-full">
+       @if(chatService.chatMessages.length>5)
+       {
+            <div class="text-center py-1 sticky top-0 w-full z-10">
+               <button class="text-gray-500 text-xs sm:text-sm shadow px-3 sm:px-5 py-1.5 sm:py-2 rounded-full bg-gray-200 hover:text-gray-700
+                 focus:outline-none transition-colors" (click)="loadMoreMessages()">
+
+                 @if(chatService.isLoading())
+                 {
+                    <div class="flex items-center gap-2">
+                    <mat-spinner diameter="16" strokeWidth="2" class="sm:hidden">
+                    </mat-spinner>
+                    <mat-spinner diameter="20" strokeWidth="3" class="hidden sm:block">
+                    </mat-spinner> 
+                    <span>Loading...</span>
+                    </div>
+                 }
+                 @else {
+                    Load More
+                 }
+               </button>
+            </div>
+       }
+       @for(item of chatService.chatMessages(); track item.id)
+       {  
+            @if(item.senderId!=authService.currentLoggedUser?.id && item.senderId==chatService.currentOpenedChat()?.id)
+            {
+                 <div class="flex mb-3 flex-row items-center justify-normal">
+                   <div class="flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gradient-to-r from-green-400
+                    to-blue-500 flex-shrink-0">
+                     <img [src]="'https://ishant543.bsite.net'+ chatService.currentOpenedChat()?.profilePicture" [alt]="chatService.currentOpenedChat()?.fullName"
+                       class="h-6 w-6 sm:h-8 sm:w-8 rounded-full object-cover">
+                   </div>
+                   <div class="chat-message bg-gray-200 p-3 sm:p-4 rounded-lg ml-2 shadow-sm text-black max-w-[75%] sm:max-w-[70%]">
+                       <span class="text-xs sm:text-sm text-gray-700 block break-words">
+                          {{item.content}}
+                       </span>
+                       <span class="text-right text-gray-400 text-[9px] sm:text-[10px] block mt-1">
+                         {{item.createdDate|date:'short'}}
+                       </span>                     
+                   </div>
+                 </div>
+            }
+            @else if(item.senderId==authService.currentLoggedUser?.id)
+            {
+               <div class="flex flex-row items-center justify-end mb-3">
+                  <div class="chat-message bg-blue-600 p-3 sm:p-4 rounded-lg mr-2 shadow-sm text-white max-w-[75%] sm:max-w-[70%]">
+                     <span class="text-xs sm:text-sm block break-words">
+                        {{item.content}}
+                     </span>                  
+                     <div class="flex items-center justify-between mt-1 gap-2">
+                       <span class="text-gray-200 text-[9px] sm:text-xs">
+                         {{item.createdDate|date:'short'}}
+                       </span>
+                       @if(item.isRead==false && chatService.isUserOnline()=='Online')
+                       {
+                          <span class="text-gray-400 text-xs sm:text-sm">✔✔</span>
+                       }
+                       @else if (item.isRead==false && chatService.currentOpenedChat()?.isOnline==false) 
+                       {
+                          <span class="text-gray-400 text-xs sm:text-sm">✔</span>
+                       }
+                       @else
+                       {
+                          <span class="text-green-300 text-xs sm:text-sm">✔✔</span>
+                       }
+                     </div>
+                  </div>
+                  <div class="flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gradient-to-r from-blue-500
+                    to-purple-500 flex-shrink-0">
+                    <img [src]="'https://ishant543.bsite.net'+ authService.currentLoggedUser?.profileImage" [alt]="authService.currentLoggedUser?.fullName"
+                       class="h-6 w-6 sm:h-8 sm:w-8 rounded-full object-cover">
+                  </div>
+               </div>
+            }
+       }
+       @empty 
+       {
+                <div class="flex flex-col items-center justify-center h-full">
+                   @if(chatService.isLoading())
+                   {
+                      <mat-spinner diameter="30" strokeWidth="3" class="sm:hidden"></mat-spinner>
+                      <mat-spinner diameter="40" strokeWidth="3" class="hidden sm:block"></mat-spinner>
+                   }
+                   @else 
+                   {
+                     <mat-icon class="text-gray-400 text-4xl sm:text-5xl mb-2">chat</mat-icon>
+                     <h6 class="text-center text-gray-500 text-sm sm:text-base">
+                        No Message Yet
+                     </h6>
+                   }
+                </div>
+       }
    </div>
 </div>

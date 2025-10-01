@@ -1,9 +1,41 @@
+<!-- <app-chat-sidebar class="bg-white border-r md:hidden"/>
 <div class="flex rounded-3xl h-full justify-between">
-    <app-chat-sidebar class="bg-white border-r w-1/2"/>
+    <app-chat-sidebar class="bg-white border-r hidden md:block w-1/2"/>
     <div class="w-full">
         <app-chat-window/>
     </div>
-     <div class="bg-gray-50 border-l w-1/2">
+     <div class="bg-gray-50 border-l hidden md:w-1/2">
         <app-chat-right-sidebar/>
      </div>
+</div> -->
+
+<!-- Mobile: Show only sidebar when no chat is open -->
+<div class="md:hidden h-full">
+  @if(!chatService.currentOpenedChat()) {
+    <app-chat-sidebar class="bg-white border-r h-full"/>
+  } @else {
+    <div class="flex h-full">
+      <div class="w-full">
+        <app-chat-window/>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Tablet & Desktop: Show all components -->
+<div class="hidden md:flex rounded-3xl h-full">
+    <!-- Sidebar - Responsive widths -->
+    <div class="w-full md:w-80 lg:w-96 flex-shrink-0">
+      <app-chat-sidebar class="bg-white border-r h-full"/>
+    </div>
+    
+    <!-- Chat Window - Takes remaining space -->
+    <div class="flex-1 min-w-0">
+        <app-chat-window/>
+    </div>
+    
+    <!-- Right Sidebar - Hidden on tablet, shown on larger screens -->
+    <div class="hidden lg:block w-80 xl:w-96 flex-shrink-0 bg-gray-50 border-l">
+        <app-chat-right-sidebar/>
+    </div>
 </div>

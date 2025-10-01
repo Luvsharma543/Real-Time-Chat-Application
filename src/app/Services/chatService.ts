@@ -148,23 +148,25 @@ sendMessage(message:string)
   .catch(err=>console.log(err));
 
 }
-Status(userName:string):string
-    {
-        const currentChatUser=this.currentOpenedChat();
-        if(!currentChatUser)
-          {
-            return "Offline";
-          }
 
-          const onlineUser=this.onlineUser().find(u=>u.userName===currentChatUser.userName);
-          
-         return onlineUser?.isTyping?"Typing...":this.isUserOnline();
-    }
+Status(userName:string):string
+{
+    const currentChatUser=this.currentOpenedChat();
+    if(!currentChatUser)
+      {
+        return "Offline";
+      }
+
+      const onlineUser=this.onlineUser().find(u=>u.userName===currentChatUser.userName);
+      
+      return onlineUser?.isTyping?"Typing...":this.isUserOnline();
+}
+
 isUserOnline():string
-    {
-      let onlineUser=this.onlineUser().find(u=>u.userName===this.currentOpenedChat()?.userName);
-      return onlineUser?.isOnline? 'Online':this.currentOpenedChat()!.userName;
-    }
+{
+  let onlineUser=this.onlineUser().find(u=>u.userName===this.currentOpenedChat()?.userName);
+  return onlineUser?.isOnline? 'Online':this.currentOpenedChat()!.userName;
+}
 
 loadMessages(pageNumber:number)
 {
