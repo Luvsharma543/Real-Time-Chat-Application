@@ -29,7 +29,7 @@ export class VideoChat implements OnInit {
 
   setUpSignalRListeners(){
     this.signalRService.hubConnection?.on('CallEnded',()=>{
-
+      this.endCall2();
     })
     this.signalRService.answerReceived.subscribe(async(data)=>{
       if(data){
@@ -75,7 +75,7 @@ setUpPeerConnection(){
   this.peerConnection = new RTCPeerConnection({
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
-      {urls:'stun:stun.services.mozilla.com'},
+        {urls:'stun:stun.services.mozilla.com'},
       {
           urls: 'turn:relay1.expressturn.com:3480',
           username: '000000002074680056',
@@ -123,6 +123,25 @@ async endCall(){
   this.localVideo.nativeElement.srcObject=null;
  }
   this.signalRService.sendEndCall(this.signalRService.remoteUserId);
+  
+}
+
+async endCall2(){
+ if(this.peerConnection){
+  this.dialogRef.close();
+  this.signalRService.isCallActive=false;
+  this.signalRService.incomingCall=false;
+  this.signalRService.remoteUserId='';
+  this.peerConnection.close();
+  this.peerConnection=new RTCPeerConnection();
+  this.localVideo.nativeElement.srcObject=null;
+ }
+ const stream=this.localVideo.nativeElement.srcObject as MediaStream;
+ if(stream){
+  stream.getTracks().forEach(track=>track.stop());
+  this.localVideo.nativeElement.srcObject=null;
+ }
+  
   
 }
 
