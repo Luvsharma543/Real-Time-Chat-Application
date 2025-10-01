@@ -33,7 +33,7 @@ export class VideoChatService {
     }).catch(err=>{
       console.log("Error while starting connection: "+err);
     });
-
+    
     this.hubConnection.on("ReceiveOffer",(senderId,offer)=>{
       this.offerReceived.next({senderId,offer:JSON.parse(offer)});
     })
