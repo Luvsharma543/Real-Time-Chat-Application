@@ -24,16 +24,16 @@ export class VideoChatService {
     this.hubConnection=new HubConnectionBuilder()
     .withUrl(this.hubUrl,{
       accessTokenFactory:()=>this.authService.getToken()!
-    })
-    .withAutomaticReconnect()
-    .build();
+      })
+      .withAutomaticReconnect()
+      .build();
 
     this.hubConnection.start().then(()=>{
       console.log("Video Chat Connection Started");
     }).catch(err=>{
       console.log("Error while starting connection: "+err);
-    });
-    
+      });
+
     this.hubConnection.on("ReceiveOffer",(senderId,offer)=>{
       this.offerReceived.next({senderId,offer:JSON.parse(offer)});
     })
@@ -56,13 +56,13 @@ export class VideoChatService {
   sendAnswer(receiverId:string,answer:RTCSessionDescriptionInit){
     this.hubConnection.invoke("SendAnswer",receiverId,JSON.stringify(answer)).catch(err=>{
       console.log("Error while sending answer: "+err);
-    }); 
+    });
   }
 
   sendIceCandidate(receiverId:string,candidate:RTCIceCandidate){
     this.hubConnection.invoke("SendIceCandidate",receiverId,JSON.stringify(candidate)).catch(err=>{
       console.log("Error while sending ice candidate: "+err);
-    });
+      });
   }
 
   sendEndCall(receiverId:string){

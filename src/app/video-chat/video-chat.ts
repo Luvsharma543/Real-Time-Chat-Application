@@ -74,8 +74,13 @@ async startCall(){
 setUpPeerConnection(){
   this.peerConnection = new RTCPeerConnection({
     iceServers: [
-      { urls: 'stun:stun.l.google.com:19302' },
-      {urls:'stun:stun.services.mozilla.com'}
+        { urls: 'stun:stun.l.google.com:19302' },
+      {urls:'stun:stun.services.mozilla.com'},
+      {
+          urls: 'turn:relay1.expressturn.com:3480',
+          username: '000000002074670061',
+          credential: 'pTqSZ0w9pnagozXOpaTQ9JICjgg='
+        }
     ],
     
   });
